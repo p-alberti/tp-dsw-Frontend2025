@@ -1,0 +1,47 @@
+.FocusBox {
+    /* --- ESTILOS VISUALES DE LA CAJA --- */
+    background-color: rgba(0, 0, 0, 0.15); /* Le damos un fondo oscuro y semitransparente */
+    border-radius: 25px;                   /* ¡Aquí está la clave para los bordes redondeados! */
+    width: 100%;                          /* Le damos un ancho fijo */
+    padding: 40px 20px;                    /* Espacio interno para que el contenido no se pegue a los bordes */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Una sombra sutil para que "flote" */
+
+    /* --- ORGANIZACIÓN INTERNA DE LA CAJA (CON FLEXBOX) --- */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;   /* Apila el tiempo y los botones, uno encima del otro */
+    align-items: center;      /* Centra todo horizontalmente dentro de la caja */
+    gap: 30px;                /* Añade un espacio vertical entre el tiempo y los botones */
+}
+
+/* --- ESTILOS PARA EL TEXTO DEL TIEMPO --- */
+.TiempoDisplay {
+    font-size: 6rem;
+    font-weight: bold;
+    color: #000; /* Color negro para el texto del tiempo */
+    margin: 0;
+}
+
+/* --- CONTENEDOR DE BOTONES (SI LO USAS) --- */
+.BotonesContainer {
+    display: flex;
+    gap: 20px; /* Espacio entre los botones */
+}
+
+/* --- ESTILOS PARA LOS BOTONES --- */
+.BotonAccion {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: #f0f0f0; /* Un fondo claro */
+    color: #333; /* Texto oscuro */
+    border: 1px solid #333; /* Borde sólido */
+    border-radius: 8px;
+    padding: 10px 25px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.BotonAccion:hover {
+    background-color: #ddd;
+}

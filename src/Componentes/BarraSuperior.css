@@ -1,0 +1,23 @@
+.BarraSuperior {
+    display: flex ;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #729d5c;
+}
+h1{
+    margin-left: 2%;
+    background-color: #729d5c;
+}
+
+.BotonLogin {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    background-color: #0f4335;
+    margin-right: 2%;
+    color: #d1cbb6;
+    height: fit-content;
+    border-color: #0f4335;
+    border-radius: 15px;
+    padding: 10px
+}
