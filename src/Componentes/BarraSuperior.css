@@ -1,23 +1,81 @@
+/* === CONTENEDOR PRINCIPAL === */
 .BarraSuperior {
-    display: flex ;
-    width: 100%;
+    background: none;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #729d5c;
+    width: 100%;
+    padding: 15px 40px;
+    background: linear-gradient(90deg, #6f9b57 0%, #89b471 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
-h1{
-    margin-left: 2%;
-    background-color: #729d5c;
+
+/* === TITULO (LOGO) === */
+.Logo {
+    background: none;
+    /* quita el recuadro */
+}
+
+.Logo h1 {
+    background: none;
+    /* quita cualquier fondo residual */
+    font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin: 5%;
+}
+
+.Logo h1 span {
+    color: #e8e1c4;
+    font-weight: 500;
+    background: none;
+    /* quita el verde claro */
+}
+
+/* === BOTÓN DE LOGIN === */
+
+.NavDerecha {
+    background: none;
+    margin: 1%;
 }
 
 .BotonLogin {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bolder;
-    background-color: #0f4335;
-    margin-right: 2%;
+    background: none;
+    background-color: #0f4335; 
+    /* verde oscuro */
     color: #d1cbb6;
-    height: fit-content;
-    border-color: #0f4335;
-    border-radius: 15px;
-    padding: 10px
+    border: none;
+    outline: none;
+    border-radius: 9999px;
+    padding: 10px 24px;
+    font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
+
+/* Estado hover */
+.BotonLogin:hover {
+    background-color: #145c49;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Estado clic */
+.BotonLogin:active {
+    transform: scale(0.97);
+}
+
+/* Estado focus */
+.BotonLogin:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(20, 92, 73, 0.4);
+}
+

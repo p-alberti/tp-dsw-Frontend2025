@@ -1,12 +1,18 @@
 import React from "react";
-import './BarraSuperior.css'
+import "./BarraSuperior.css";
 
 function BarraSuperior() {
-  return ( 
-  <div className = "BarraSuperior">
-    <h1>Focus Tracker</h1>
-    <button className="BotonLogin">Log in / Sign up</button>
-  </div>);
+  return (
+    <header className="BarraSuperior">
+      <div className="Logo">
+        <h1>Focus<span>Tracker</span></h1>
+      </div>
+
+      <nav className="NavDerecha">
+        <button className="BotonLogin">Log in / Sign up</button>
+      </nav>
+    </header>
+  );
 }
 
 export default BarraSuperior;
