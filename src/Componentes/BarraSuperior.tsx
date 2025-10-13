@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./BarraSuperior.css";
 
 function BarraSuperior() {
+  const navigate = useNavigate();
+
   return (
     <header className="BarraSuperior">
       <div className="Logo">
@@ -9,7 +12,9 @@ function BarraSuperior() {
       </div>
 
       <nav className="NavDerecha">
-        <button className="BotonLogin">Log in / Sign up</button>
+      <button className="BotonLogin" onClick={() => navigate("/Login")}>
+        Log in / Sign up
+      </button>
       </nav>
     </header>
   );
