@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import MainPage from "./Componentes/MainPage.tsx";
-import Login from "./Componentes/Login.tsx";
-import Registro from "./Componentes/Registro.tsx";
+import MainPage from "./components/MainPage.tsx";
+import Login from "./components/Login.tsx";
+import Registro from "./components/Registro.tsx";
 
 function App() {
   return (
