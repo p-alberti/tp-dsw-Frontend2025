@@ -24,7 +24,7 @@ function BarraSuperior() {
           // Si hay un usuario logueado, muestra este menú:
           <div className="user-menu">
             <button 
-              className="user-button" 
+              className="BotonLogin" 
               onClick={() => setDropdownOpen(!isDropdownOpen)}
             >
               Hola, {user.nombre}
