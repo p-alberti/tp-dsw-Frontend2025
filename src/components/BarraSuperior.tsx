@@ -5,7 +5,7 @@ import "./BarraSuperior.css";
 
 function BarraSuperior() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); // 3. Obtiene el usuario y la función logout del contexto
+  const { usuario, logout } = useAuth(); // 3. Obtiene el usuario y la función logout del contexto
   const [isDropdownOpen, setDropdownOpen] = useState(false); // 4. Estado para el menú desplegable
 
   const handleLogout = () => {
@@ -20,18 +20,19 @@ function BarraSuperior() {
       </div>
 
       <nav className="NavDerecha">
-        {user ? (
+        {usuario ? (
           // Si hay un usuario logueado, muestra este menú:
           <div className="user-menu">
             <button 
               className="BotonLogin" 
               onClick={() => setDropdownOpen(!isDropdownOpen)}
             >
-              Hola, {user.nombre}
+              Hola, {usuario.nombre}
             </button>
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                <button onClick={() => navigate("/historial")}>Historial</button>
+                <button onClick={() => navigate("/Perfil")}>Perfil</button>
+                <button onClick={() => navigate("/estadisticas")}>Ver estadísticas</button>
                 <button onClick={handleLogout}>Cerrar Sesión</button>
               </div>
             )}
@@ -49,7 +50,4 @@ function BarraSuperior() {
 
 export default BarraSuperior;
 
-/*      <button className="BotonLogin" onClick={() => navigate("/Login")}>
-        Log in / Sign up
-      </button>
-      */
+

@@ -19,16 +19,6 @@
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
-.TiempoDisplay {
-    font-size: 6rem;
-    font-weight: 800;
-    color: #0f4335;
-    margin: 0;
-    background-color: #e0dccc;
-    border-radius: 15px;
-    padding: 10px 25px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-}
 
 .BotonesContainer {
     display: flex;
@@ -51,4 +41,13 @@
 .BotonAccion:hover {
     background-color: #136c54;
     transform: translateY(-2px);
+}
+
+/* ESTILOS NUEVOS */
+.RelojesSecundariosContainer {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    /* Espacio entre los dos relojes pequeños */
+    width: 100%;
 }

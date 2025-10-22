@@ -22,6 +22,7 @@ function Login() {
 
     try {
       const data = await loginUser(mail, contrasena);
+      console.log("Respuesta del backend:", data);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('userData', JSON.stringify(data.user));
       login(data.token, data.user);

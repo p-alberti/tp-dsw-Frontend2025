@@ -23,33 +23,30 @@ body {
 .ContenidoPrincipal {
   display: flex;
   justify-content: center;
+  /* Cambiamos a 'center' para un mejor control */
   align-items: center;
-  gap: 50px;
-  /* Espacio entre SessionBox y FocusBox */
+  gap: 5%;
+  /* Usamos un gap porcentual para que sea más flexible */
   flex-grow: 1;
   width: 100%;
   background-color: #d1cbb6;
   padding: 40px;
 }
 
-.BotonEstadisticas {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #0f4335;
-  color: #d1cbb6;
-  border: none;
-  border-radius: 15px;
-  padding: 12px 30px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+/* Ahora le damos tamaños relativos a los hijos directos del ContenidoPrincipal */
+.ContenidoPrincipal>.SessionBox {
+  flex-basis: 280px;
+  /* Ancho base */
+  flex-shrink: 0;
+  /* Evita que se encoja */
 }
 
-.BotonEstadisticas:hover {
-  background-color: #145c49;
-  transform: translateX(-50%) scale(1.05);
+.ContenidoPrincipal>.FocusBox {
+  flex-basis: 700px;
+  /* Ancho base más grande */
+  flex-grow: 1;
+  /* Permite que crezca para ocupar espacio */
+  max-width: 800px;
+  /* Límite para que no se estire demasiado en pantallas grandes */
 }
+

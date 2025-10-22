@@ -1,0 +1,143 @@
+.RelojInteractivo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #e0dccc;
+  border-radius: 15px;
+  padding: 5px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  transition: transform 0.2s ease;
+  color: #0f4335;
+  user-select: none;
+  /* Evita que el texto se seleccione al hacer doble clic */
+}
+
+.DigitGroup {
+  display: flex;
+  gap: 2px;
+}
+
+.DigitColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.DigitColumn span {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  line-height: 1;
+  /* Asegura que no haya espacio extra vertical */
+}
+
+.DigitColumn button {
+  background: transparent;
+  border: none;
+  color: #0f4335;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0;
+  /* Los botones son invisibles por defecto */
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0 8px;
+}
+
+.RelojInteractivo:hover .DigitColumn button {
+  opacity: 0.5;
+  /* Aparecen al pasar el ratón por encima del reloj */
+}
+
+.DigitColumn button:hover {
+  opacity: 1 !important;
+  transform: scale(1.1);
+}
+
+.Separator {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+}
+
+/* --- Modificadores de Tamaño --- */
+
+/* Reloj Principal */
+.RelojInteractivo.principal .DigitColumn span {
+  font-size: 6rem;
+}
+
+.RelojInteractivo.principal .DigitColumn button {
+  font-size: 1.5rem;
+}
+
+.RelojInteractivo.principal .Separator {
+  font-size: 5rem;
+  padding-bottom: 10px;
+  /* Alineación vertical del ':' */
+}
+
+/* Reloj Secundario */
+.RelojInteractivo.secundario .DigitColumn span {
+  font-size: 2.5rem;
+}
+
+.RelojInteractivo.secundario .DigitColumn button {
+  font-size: 1rem;
+}
+
+.RelojInteractivo.secundario .Separator {
+  font-size: 2rem;
+  padding-bottom: 5px;
+  /* Alineación vertical del ':' */
+}
+
+.RelojWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  /* Espacio entre el título y el reloj */
+}
+
+.RelojTitulo {
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  color: #0f4335;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  /* Lo ponemos en mayúsculas para que se vea como una etiqueta */
+  letter-spacing: 1px;
+  /* Un poco de espacio entre letras queda muy bien */
+  opacity: 0.8;
+}
+
+.RelojWrapper.secundario .RelojTitulo {
+  font-size: 0.9rem;
+}
+.RelojWrapper.activo .RelojTitulo {
+  opacity: 1;
+  color: #c26c06;
+  /* Un color llamativo para el título activo */
+}
+
+.RelojWrapper.activo .RelojInteractivo {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px #c26c06;
+  /* Sombra exterior para resaltar */
+}
+
+/* Estilo para los botones cuando el temporizador está corriendo */
+.DigitColumn button:disabled {
+  opacity: 0 !important;
+  /* Los oculta completamente */
+  cursor: not-allowed;
+}
+
+.ContenidoReloj {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  /* Espacio entre el reloj y el nuevo contador */
+}

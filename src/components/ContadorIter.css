@@ -1,0 +1,52 @@
+.ContadorIter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: rgba(15, 67, 53, 0.1);
+  border-radius: 12px;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+.CountDisplay {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #0f4335;
+  padding: 2px 8px;
+  background-color: #e0dccc;
+  border-radius: 8px;
+  min-width: 30px;
+  /* Ancho mínimo para que no salte el layout */
+  text-align: center;
+}
+
+.ContadorIter button {
+  background: none;
+  border: none;
+  color: #0f4335;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.ContadorIter:not(.disabled):hover button {
+  opacity: 1;
+}
+
+.ContadorIter button:hover {
+  transform: scale(1.2);
+}
+
+.ContadorIter.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ContadorIter.disabled button {
+  cursor: not-allowed;
+}

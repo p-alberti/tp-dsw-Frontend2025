@@ -26,13 +26,13 @@ function SessionBox() {
 
   return (
     <div className="SessionBox">
-      <h2>Seleccionar sesión</h2>
+      <h2>Seleccionar Categoría</h2>
       <select
         className="SelectorSesion"
         value={selectedSession}
         onChange={(e) => setSelectedSession(e.target.value)}
       >
-        <option value="">-- Elegí una sesión --</option>
+        <option value="">-- Elegí una Categoría --</option>
         {sesiones.map((s, i) => (
           <option key={i} value={s}>
             {s}

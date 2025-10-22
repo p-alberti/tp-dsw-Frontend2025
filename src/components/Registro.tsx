@@ -7,7 +7,6 @@ import "./Registro.css";
 interface FormData {
   nombre: string;
   apellido: string;
-  dni: string;
   fechaNac: string;
   username: string;
   mail: string;
@@ -20,7 +19,6 @@ function Registro() {
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
     apellido: "",
-    dni: "",
     fechaNac: "",
     username: "",
     mail: "",
@@ -67,7 +65,6 @@ function Registro() {
         <form onSubmit={handleSubmit} className="w-full">
           <input type="text" placeholder="Nombre" name="nombre" value={formData.nombre} onChange={handleChange} className="RegisterInput" required />
           <input type="text" placeholder="Apellido" name="apellido" value={formData.apellido} onChange={handleChange} className="RegisterInput" required />
-          <input type="text" placeholder="DNI" name="dni" value={formData.dni} onChange={handleChange} className="RegisterInput" required />
           <input type="date" placeholder="Fecha de Nacimiento" name="fechaNac" value={formData.fechaNac} onChange={handleChange} className="RegisterInput" required />
           <input type="text" placeholder="Nombre de usuario" name="username" value={formData.username} onChange={handleChange} className="RegisterInput" required />
           <input type="email" placeholder="Correo electrónico" name="mail" value={formData.mail} onChange={handleChange} className="RegisterInput" required />
