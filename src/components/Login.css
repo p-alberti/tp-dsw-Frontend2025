@@ -21,9 +21,7 @@
   transition: all 0.3s ease;
 }
 
-.LoginBox:hover {
-  transform: scale(1.02);
-}
+
 
 /* === Título === */
 .LoginBox h2 {

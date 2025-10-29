@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import {Link as RouterLink} from "react-router-dom"
 import "./Perfil.css";
 
 interface Categoria {
@@ -65,60 +66,89 @@ function Perfil() {
   if (!usuario) return <p>Cargando perfil...</p>;
 
   return (
-    <div className="perfil-container">
-      <h2>Perfil de {usuario.nombre}</h2>
+    <div className="layout-container">
 
-      <form onSubmit={handleSave} className="perfil-form">
-        <label>Nombre:</label>
-        <input
-          type="text"
-          value={usuario.nombre}
-          onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
-        />
+      <header className="BarraSuperior">
+        <div className="Logo">
+          <h1>Focus<span>Tracker</span></h1>
+        </div>
+      </header>
 
-        <label>Apellido:</label>
-        <input
-          type="text"
-          value={usuario.apellido}
-          onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
-        />
+      <main className="perfil-page">
+        <RouterLink to="/" className="perfil-back-link">
+          « Volver al Inicio
+        </RouterLink>
 
-        <label>Usuario:</label>
-        <input
-          type="text"
-          value={usuario.username}
-          onChange={(e) => setUsuario({ ...usuario, username: e.target.value })}
-        />
+        <div className="perfil-box">
+          <h2>Perfil de {usuario.nombre}</h2>
 
-        <label>Email:</label>
-        <input
-          type="email"
-          value={usuario.mail}
-          onChange={(e) => setUsuario({ ...usuario, mail: e.target.value })}
-        />
+          <form onSubmit={handleSave} className="perfil-form">
+            <div className="form-group">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                value={usuario.nombre}
+                onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
+              />
+            </div>
 
-        <label>Fecha de nacimiento:</label>
-        <input
-          type="date"
-          value={usuario.fechaNac.slice(0, 10)} // formateamos a yyyy-mm-dd
-          onChange={(e) => setUsuario({ ...usuario, fechaNac: e.target.value })}
-        />
+            <div className="form-group">
+              <label>Apellido:</label>
+              <input
+                type="text"
+                value={usuario.apellido}
+                onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
+              />
+            </div>
 
-        <h3>Categorías asociadas</h3>
-        <ul className="categorias-lista">
-          {usuario.categorias && usuario.categorias.length > 0 ? (
-            usuario.categorias.map((cat) => (
-              <li key={cat.id}>{cat.nombre}</li>
-            ))
-          ) : (
-            <li>No tiene categorías asignadas</li>
-          )}
-        </ul>
+            <div className="form-group">
+              <label>Usuario:</label>
+              <input
+                type="text"
+                value={usuario.username}
+                onChange={(e) => setUsuario({ ...usuario, username: e.target.value })}
+              />
+            </div>
 
-        <button type="submit">Guardar cambios</button>
-      </form>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                value={usuario.mail}
+                onChange={(e) => setUsuario({ ...usuario, mail: e.target.value })}
+              />
+            </div>
 
-      {mensaje && <p className="perfil-mensaje">{mensaje}</p>}
+            <div className="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input
+                type="date"
+                value={usuario.fechaNac.slice(0, 10)} // formateamos a yyyy-mm-dd
+                onChange={(e) => setUsuario({ ...usuario, fechaNac: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Categorías asociadas</label>
+              <div className="categorias-box"> {/* <-- AGREGAR: Un contenedor para la lista */}
+                {usuario.categorias && usuario.categorias.length > 0 ? (
+                  <ul> {/* La lista ahora va aquí adentro */}
+                    {usuario.categorias.map((cat) => (
+                      <li key={cat.id}>{cat.nombre}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No tiene categorías asignadas</p>
+                )}
+              </div>
+            </div>
+
+            <button type="submit">Guardar cambios</button>
+          </form>
+
+          {mensaje && <p className="perfil-mensaje">{mensaje}</p>}
+        </div>
+      </main>
     </div>
   );
 }
