@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import './FocusBox.css';
 import RelojInteractivo from "./RelojInteractivo";
+import SessionBox from "./SessionBox";
 
 // Definimos la estructura de nuestros relojes para la configuración
 const CONFIGURACION_RELOJES = {
@@ -130,47 +131,55 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
 
   return (
     <div className="FocusBox">
-      <RelojInteractivo
-        titulo={CONFIGURACION_RELOJES.foco.titulo}
-        tipo={CONFIGURACION_RELOJES.foco.tipo}
-        minutos={estaActivo && clavePasoActivo === 'foco' ? displayMinutos : tiempos.foco.min}
-        segundos={estaActivo && clavePasoActivo === 'foco' ? displaySegundos : tiempos.foco.seg}
-        estaActivo={estaActivo && clavePasoActivo === 'foco'}
-        estaDeshabilitado={estaActivo}
-        onTiempoChange={(u, c) => handleTiempoChange('foco', u, c)}
-        iteraciones={tiempos.foco.iteraciones}
-        onIteracionesChange={(count) => handleIteracionesChange('foco', count)}
-      />
-      
-      <div className="RelojesSecundariosContainer">
-        <RelojInteractivo
-          titulo={CONFIGURACION_RELOJES.corto.titulo}
-          tipo={CONFIGURACION_RELOJES.corto.tipo}
-          minutos={estaActivo && clavePasoActivo === 'corto' ? displayMinutos : tiempos.corto.min}
-          segundos={estaActivo && clavePasoActivo === 'corto' ? displaySegundos : tiempos.corto.seg}
-          estaActivo={estaActivo && clavePasoActivo === 'corto'}
-          estaDeshabilitado={estaActivo}
-          onTiempoChange={(u, c) => handleTiempoChange('corto', u, c)}
-          iteraciones={tiempos.corto.iteraciones}
-          onIteracionesChange={(count) => handleIteracionesChange('corto', count)}
-        />
-        <RelojInteractivo
-          titulo={CONFIGURACION_RELOJES.largo.titulo}
-          tipo={CONFIGURACION_RELOJES.largo.tipo}
-          minutos={estaActivo && clavePasoActivo === 'largo' ? displayMinutos : tiempos.largo.min}
-          segundos={estaActivo && clavePasoActivo === 'largo' ? displaySegundos : tiempos.largo.seg}
-          estaActivo={estaActivo && clavePasoActivo === 'largo'}
-          estaDeshabilitado={estaActivo}
-          onTiempoChange={(u, c) => handleTiempoChange('largo', u, c)}
-          iteraciones={tiempos.largo.iteraciones}
-          onIteracionesChange={(count) => handleIteracionesChange('largo', count)}
-        />
-      </div>
+      <div className="ContenidoFocusBox"> {/* Contenedor Flex para alinear horizontalmente */}
+        
+        <SessionBox /> {/* Componente de sesión ahora está aquí */}
+        
+        {/* Agrupamos los relojes y botones en su propio contenedor para alinearlos verticalmente */}
+        <div className="ContenedorTimers">
+          <RelojInteractivo
+            titulo={CONFIGURACION_RELOJES.foco.titulo}
+            tipo={CONFIGURACION_RELOJES.foco.tipo}
+            minutos={estaActivo && clavePasoActivo === 'foco' ? displayMinutos : tiempos.foco.min}
+            segundos={estaActivo && clavePasoActivo === 'foco' ? displaySegundos : tiempos.foco.seg}
+            estaActivo={estaActivo && clavePasoActivo === 'foco'}
+            estaDeshabilitado={estaActivo}
+            onTiempoChange={(u, c) => handleTiempoChange('foco', u, c)}
+            iteraciones={tiempos.foco.iteraciones}
+            onIteracionesChange={(count) => handleIteracionesChange('foco', count)}
+          />
+          
+          <div className="RelojesSecundariosContainer">
+            <RelojInteractivo
+              titulo={CONFIGURACION_RELOJES.corto.titulo}
+              tipo={CONFIGURACION_RELOJES.corto.tipo}
+              minutos={estaActivo && clavePasoActivo === 'corto' ? displayMinutos : tiempos.corto.min}
+              segundos={estaActivo && clavePasoActivo === 'corto' ? displaySegundos : tiempos.corto.seg}
+              estaActivo={estaActivo && clavePasoActivo === 'corto'}
+              estaDeshabilitado={estaActivo}
+              onTiempoChange={(u, c) => handleTiempoChange('corto', u, c)}
+              iteraciones={tiempos.corto.iteraciones}
+              onIteracionesChange={(count) => handleIteracionesChange('corto', count)}
+            />
+            <RelojInteractivo
+              titulo={CONFIGURACION_RELOJES.largo.titulo}
+              tipo={CONFIGURACION_RELOJES.largo.tipo}
+              minutos={estaActivo && clavePasoActivo === 'largo' ? displayMinutos : tiempos.largo.min}
+              segundos={estaActivo && clavePasoActivo === 'largo' ? displaySegundos : tiempos.largo.seg}
+              estaActivo={estaActivo && clavePasoActivo === 'largo'}
+              estaDeshabilitado={estaActivo}
+              onTiempoChange={(u, c) => handleTiempoChange('largo', u, c)}
+              iteraciones={tiempos.largo.iteraciones}
+              onIteracionesChange={(count) => handleIteracionesChange('largo', count)}
+            />
+          </div>
 
-      <div className="BotonesContainer">
-        <button className="BotonAccion" onClick={handleStartStop}>
-          {estaActivo ? 'Pausar' : 'Iniciar'}
-        </button>
+          <div className="BotonesContainer">
+            <button className="BotonAccion" onClick={handleStartStop}>
+              {estaActivo ? 'Pausar' : 'Iniciar'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

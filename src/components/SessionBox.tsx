@@ -41,9 +41,6 @@ function SessionBox() {
       </select>
 
       <div className="BotonesSesion">
-        <button className="BotonSesion" onClick={handleApply}>
-          Aplicar
-        </button>
         <button className="BotonSesion" onClick={handleCreateNew}>
           Crear nueva
         </button>

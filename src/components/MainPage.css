@@ -46,7 +46,7 @@ body {
   /* Ancho base más grande */
   flex-grow: 1;
   /* Permite que crezca para ocupar espacio */
-  max-width: 800px;
+  max-width: 1000px;
   /* Límite para que no se estire demasiado en pantallas grandes */
 }
 
