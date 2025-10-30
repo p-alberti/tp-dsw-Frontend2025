@@ -54,7 +54,7 @@ function FocusBox() {
   const [pasoActual, setPasoActual] = useState(0); // Índice del array CICLO_POMODORO
   const [tiempoRestante, setTiempoRestante] = useState(tiempos.foco.min * 60 + tiempos.foco.seg);
   const [estaActivo, setEstaActivo] = useState(false);
-  const [categoria, setCategoria] = useState<string>('');
+  const [selectedCategoria, setSelectedCategoria] = useState<string>('');
   const [mensajeError, setMensajeError] = useState<string>('');
 
 
@@ -136,6 +136,16 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
   };
 
   const handleStartStop = () => {
+    if (!estaActivo && !selectedCategoria) {
+      setMensajeError('Por favor, selecciona una categoría para comenzar.');
+      // Hacemos que el mensaje desaparezca después de 3 segundos
+      setTimeout(() => setMensajeError(''), 3000);
+      return; // Detenemos la ejecución de la función aquí
+    }
+
+    // Si todo está bien, limpiamos cualquier mensaje de error anterior y continuamos
+    setMensajeError('');
+
     if (!estaActivo) {
       // Al iniciar, nos aseguramos de que el tiempo restante sea el del paso actual
       const clavePasoActual = cicloDinamico[pasoActual];
@@ -154,7 +164,10 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
     <div className="FocusBox">
       <div className="ContenidoFocusBox"> {/* Contenedor Flex para alinear horizontalmente */}
         
-        <SessionBox /> {/* Componente de sesión ahora está aquí */}
+        <SessionBox 
+          selectedCategoria={selectedCategoria}
+          onCategoriaChange={setSelectedCategoria}
+        /> {/* Componente de sesión ahora está aquí */}
         
         {/* Agrupamos los relojes y botones en su propio contenedor para alinearlos verticalmente */}
         <div className="ContenedorTimers">
@@ -200,6 +213,7 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
               {estaActivo ? 'Pausar' : 'Iniciar'}
             </button>
           </div>
+          {mensajeError && <p className="MensajeError">{mensajeError}</p>}
         </div>
       </div>
     </div>

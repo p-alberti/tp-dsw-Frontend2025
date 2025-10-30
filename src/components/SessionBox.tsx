@@ -10,10 +10,14 @@ interface Categoria {
   nombre_categoria: string;
 }
 
-function SessionBox() {
+interface SessionBoxProps {
+  selectedCategoria: string;
+  onCategoriaChange: (id: string) => void;
+}
+
+function SessionBox({ selectedCategoria, onCategoriaChange}: SessionBoxProps) {
   const { token } = useAuth();
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [selectedCategoria, setSelectedCategoria] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -48,9 +52,7 @@ function SessionBox() {
       // CAMBIAR: Usamos la función del servicio en lugar de fetch
       const nuevaCategoriaData = await createCategoria(data, token);
       setCategorias([...categorias, nuevaCategoriaData.data]);
-      setSelectedCategoria(nuevaCategoriaData.data.id.toString());
-      console.log("Usuario asignado a la categoría:", nuevaCategoriaData.usuario);
-
+      onCategoriaChange(nuevaCategoriaData.data.id.toString());
       setIsCreating(false);
     } catch (error) {
       console.error("Error al crear la categoría:", error);
@@ -65,7 +67,7 @@ function SessionBox() {
         <select
           className="SelectorSesion"
           value={selectedCategoria}
-          onChange={(e) => setSelectedCategoria(e.target.value)}
+          onChange={(e) => onCategoriaChange(e.target.value)}
           disabled={isLoading || categorias.length === 0}
         >
           {isLoading ? (

@@ -61,3 +61,18 @@
     /* Espacio entre los dos relojes pequeños */
     width: 100%;
 }
+
+/* FocusBox.css */
+
+/* --- AÑADIR ESTE ESTILO AL FINAL DEL ARCHIVO --- */
+.MensajeError {
+    color: #c74343;
+    /* Un color rojo para la alerta */
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    /* Espacio para separarlo del botón */
+    text-align: center;
+    width: 100%;
+}
