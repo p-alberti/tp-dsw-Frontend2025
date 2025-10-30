@@ -76,3 +76,12 @@
     text-align: center;
     width: 100%;
 }
+
+.BotonDetener {
+    background-color: #8c2a2a;
+    /* Un color rojizo para indicar una acción destructiva */
+}
+
+.BotonDetener:hover {
+    background-color: #a83b3b;
+}

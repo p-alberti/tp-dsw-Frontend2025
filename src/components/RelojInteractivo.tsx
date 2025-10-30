@@ -10,12 +10,12 @@ interface RelojProps {
   estaActivo: boolean; // Prop para saber si es el reloj que está corriendo
   estaDeshabilitado: boolean; // Prop para deshabilitar los controles
   onTiempoChange: (unidad: 'minutos' | 'segundos', cantidad: number) => void; // Función para notificar al padre del cambio
-
   iteraciones: number;
   onIteracionesChange: (newCount: number) => void;
+  iteracionesModificables?: boolean;
 }
 
-function RelojInteractivo({ titulo, minutos, segundos, tipo, estaActivo, estaDeshabilitado, onTiempoChange,  iteraciones, onIteracionesChange }: RelojProps) {
+function RelojInteractivo({ titulo, minutos, segundos, tipo, estaActivo, estaDeshabilitado, onTiempoChange,  iteraciones, onIteracionesChange, iteracionesModificables = true }: RelojProps) {
   
   const minDecenas = Math.floor(minutos / 10);
   const minUnidades = minutos % 10;
@@ -52,6 +52,7 @@ function RelojInteractivo({ titulo, minutos, segundos, tipo, estaActivo, estaDes
           count={iteraciones}
           onCountChange={onIteracionesChange}
           disabled={estaDeshabilitado}
+          isModifiable={iteracionesModificables}
         />
       </div>
     </div>
