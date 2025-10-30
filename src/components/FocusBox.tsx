@@ -12,7 +12,6 @@ const CONFIGURACION_RELOJES = {
 
 // ¡LA CLAVE DE LA ESCALABILIDAD! Defines el ciclo como una lista de claves.
 // Puedes reordenarlo, repetirlo, etc., y la lógica funcionará.
-const PLANTILLA_CICLO: (keyof typeof CONFIGURACION_RELOJES)[] = ['foco', 'corto', 'foco', 'largo'];
 
 function FocusBox() {
   // Estado para los TIEMPOS CONFIGURADOS por el usuario
@@ -23,31 +22,41 @@ function FocusBox() {
   });
 
   const cicloDinamico = useMemo(() => {
-    const nuevoCiclo: (keyof typeof CONFIGURACION_RELOJES)[] = [];
-    // Usamos el contador de 'foco' como el número de sesiones por ciclo completo.
-    const sesionesDeFoco = Math.max(1, tiempos.foco.iteraciones);
+  const nuevoCiclo: (keyof typeof CONFIGURACION_RELOJES)[] = [];
 
-    for (let i = 0; i < sesionesDeFoco; i++) {
-      // 1. Añade una sesión de Foco.
-      nuevoCiclo.push('foco');
+  const totalFocos = Math.max(1, tiempos.foco.iteraciones);         // Cuántos ciclos de foco hay
+  const cortosPorLargo = Math.max(1, tiempos.corto.iteraciones);    // Cada cuántos recreos cortos hay un largo
 
-      // 2. Comprueba si es la última sesión de foco del ciclo.
-      if (i === sesionesDeFoco - 1) {
-        // Si es la última, añade un Recreo Largo.
-        nuevoCiclo.push('largo');
+  let contadorCortos = 0;
+
+  for (let i = 0; i < totalFocos; i++) {
+    nuevoCiclo.push("foco"); // Siempre va primero un tiempo de foco
+
+    // Si no es el último foco, siempre viene un recreo
+    if (i < totalFocos - 1) {
+      contadorCortos++;
+
+      if (contadorCortos <= cortosPorLargo) {
+        nuevoCiclo.push("corto");
       } else {
-        // Si no es la última, añade un Recreo Corto.
-        nuevoCiclo.push('corto');
+        nuevoCiclo.push("largo");
+        contadorCortos = 0; // Se resetea después de un recreo largo
       }
     }
-    
-    return nuevoCiclo;
-  }, [tiempos.foco.iteraciones]); // La dependencia ahora es SOLO el contador de foco. ¡Mucho más eficiente!
+  }
+
+  console.log("🧩 Ciclo generado:", nuevoCiclo);
+  return nuevoCiclo;
+  }, [tiempos.foco.iteraciones, tiempos.corto.iteraciones]);
+
 
   // Estado del TEMPORIZADOR
   const [pasoActual, setPasoActual] = useState(0); // Índice del array CICLO_POMODORO
   const [tiempoRestante, setTiempoRestante] = useState(tiempos.foco.min * 60 + tiempos.foco.seg);
   const [estaActivo, setEstaActivo] = useState(false);
+  const [categoria, setCategoria] = useState<string>('');
+  const [mensajeError, setMensajeError] = useState<string>('');
+
 
   // El motor del temporizador
   useEffect(() => {
@@ -59,16 +68,28 @@ function FocusBox() {
       }, 1000);
     } 
     else if (estaActivo && tiempoRestante === 0) {
-      // Fin del paso, pasar al siguiente
-      const proximoPaso = (pasoActual + 1) % cicloDinamico.length;
-      setPasoActual(proximoPaso);
+      const proximoPaso = pasoActual + 1;
 
-      const claveProximoPaso = cicloDinamico[proximoPaso];
-      const tiempoProximoPaso = tiempos[claveProximoPaso];
-      setTiempoRestante(tiempoProximoPaso.min * 60 + tiempoProximoPaso.seg);
+      // Si llegamos al final del ciclo (por ejemplo, después de recreo largo)
+      if (proximoPaso >= cicloDinamico.length) {
+        setEstaActivo(false); // 1. Detenemos el temporizador
+        setPasoActual(0);     // 2. Reseteamos el progreso al inicio para la próxima sesión
+
+        // 3. Reseteamos el tiempo visible al del primer paso (foco)
+        const clavePrimerPaso = cicloDinamico[0];
+        const tiempoPrimerPaso = tiempos[clavePrimerPaso];
+        setTiempoRestante(tiempoPrimerPaso.min * 60 + tiempoPrimerPaso.seg);
+        new Audio('/sonido_final.mp3').play()
+      } else {
+        new Audio('/sonido_cambio.mp3').play()
+        setPasoActual(proximoPaso);
+
+        const claveProximoPaso = cicloDinamico[proximoPaso];
+        const tiempoProximoPaso = tiempos[claveProximoPaso];
+        setTiempoRestante(tiempoProximoPaso.min * 60 + tiempoProximoPaso.seg);
+      }
+
       
-      // Opcional: Sonido de notificación
-      // new Audio('/ruta/a/sonido.mp3').play();
     }
 
     // Limpieza: se ejecuta cuando el componente se desmonta o el estado cambia
@@ -169,8 +190,8 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
               estaActivo={estaActivo && clavePasoActivo === 'largo'}
               estaDeshabilitado={estaActivo}
               onTiempoChange={(u, c) => handleTiempoChange('largo', u, c)}
-              iteraciones={tiempos.largo.iteraciones}
-              onIteracionesChange={(count) => handleIteracionesChange('largo', count)}
+              iteraciones={1}
+              onIteracionesChange={() => {}}
             />
           </div>
 

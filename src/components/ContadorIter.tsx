@@ -13,9 +13,9 @@ function ContadorIter({ count, onCountChange, disabled }: ContadorProps) {
 
   return (
     <div className={`ContadorIter ${disabled ? 'disabled' : ''}`}>
-      <button onClick={handleDecrement} disabled={disabled}>-</button>
-      <span className="CountDisplay">x{count}</span>
       <button onClick={handleIncrement} disabled={disabled}>+</button>
+      <span className="CountDisplay">x{count}</span>
+      <button onClick={handleDecrement} disabled={disabled}>-</button>
     </div>
   );
 }

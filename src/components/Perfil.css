@@ -53,8 +53,8 @@
   align-items: flex-start;
   padding: 40px;
   position: relative;
-  /* Mantiene el contexto para el posicionamiento del link */
   box-sizing: border-box;
+  overflow-y: auto;
   }
 
 
@@ -428,4 +428,10 @@
 
 .modal-btn-eliminar:hover {
   background-color: #a53d3d;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-y: auto;
 }
