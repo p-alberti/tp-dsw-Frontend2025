@@ -5,7 +5,9 @@ import "./Perfil.css";
 
 interface Categoria {
   id: number;
-  nombre: string;
+  nombre_categoria: string;
+  descripcion: string;
+  color: string;  
 }
 
 interface UsuarioDetalle {
@@ -23,6 +25,10 @@ function Perfil() {
   const [usuario, setUsuario] = useState<UsuarioDetalle | null>(null);
   const [mensaje, setMensaje] = useState("");
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<Categoria | null>(null);
+
+
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
@@ -31,6 +37,7 @@ function Perfil() {
         });
         if (res.ok) {
           const data = await res.json();
+          console.log("Datos del usuario:", data);
           setUsuario(data);
         }
       } catch (error) {
@@ -39,6 +46,108 @@ function Perfil() {
     };
     fetchUsuario();
   }, [token]);
+
+    // Abre el modal y carga la categoría seleccionada
+  const handleAbrirModal = (categoria: Categoria) => {
+    setCategoriaSeleccionada({ ...categoria }); // Copiamos la categoría para evitar mutaciones directas
+    setModalVisible(true);
+  };
+
+  // Cierra el modal y resetea la categoría
+  const handleCerrarModal = () => {
+    setModalVisible(false);
+    setCategoriaSeleccionada(null);
+  };
+  
+  // Maneja los cambios en los inputs del modal
+  const handleCategoriaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (categoriaSeleccionada) {
+        setCategoriaSeleccionada({
+            ...categoriaSeleccionada,
+            [e.target.name]: e.target.value
+        });
+    }
+  };
+
+  // Lógica para guardar (por ahora solo cierra el modal)
+  const handleGuardarCategoria = async () => {
+    if (!categoriaSeleccionada) return;
+
+    try {
+      console.log("ID enviado:", categoriaSeleccionada.id);
+
+      const res = await fetch(`http://localhost:3000/api/categories/${categoriaSeleccionada.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          nombre_categoria: categoriaSeleccionada.nombre_categoria,
+          descripcion: categoriaSeleccionada.descripcion,
+          color: categoriaSeleccionada.color,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("✅ Categoría modificada con éxito:", data);
+
+        // Actualizamos el usuario local con la categoría modificada
+        setUsuario((prevUsuario) => {
+          if (!prevUsuario) return prevUsuario;
+          const nuevasCategorias = prevUsuario.categorias.map((cat: Categoria) =>
+            cat.id === categoriaSeleccionada.id ? data.data : cat
+          );
+          return { ...prevUsuario, categorias: nuevasCategorias };
+        });
+
+        setMensaje("✅ Categoría actualizada con éxito");
+        handleCerrarModal();
+      } else {
+        const errData = await res.json();
+        console.error("❌ Error al modificar categoría:", errData);
+        setMensaje(`❌ Error al modificar: ${errData.message}`);
+      }
+    } catch (error) {
+      console.error("⚠️ Error de conexión:", error);
+      setMensaje("⚠️ No se pudo conectar con el servidor");
+    }
+  };
+
+  // Lógica para eliminar (por ahora solo cierra el modal)
+  const handleEliminarCategoria = async () => {
+    if (!categoriaSeleccionada) return;
+    if (!window.confirm(`¿Estás seguro de eliminar "${categoriaSeleccionada.nombre_categoria}"?`)) return;
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/categories/${categoriaSeleccionada.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        console.log("✅ Categoría eliminada correctamente");
+        setUsuario((prevUsuario) => {
+          if (!prevUsuario) return prevUsuario;
+          const nuevasCategorias = prevUsuario.categorias.filter(
+            (cat: Categoria) => cat.id !== categoriaSeleccionada.id
+          );
+          return { ...prevUsuario, categorias: nuevasCategorias };
+        });
+        setMensaje("✅ Categoría eliminada con éxito");
+        handleCerrarModal();
+      } else {
+        const errData = await res.json();
+        console.error("❌ Error al eliminar categoría:", errData);
+        setMensaje(`❌ Error al eliminar: ${errData.message}`);
+      }
+    } catch (error) {
+      console.error("⚠️ Error de conexión:", error);
+      setMensaje("⚠️ No se pudo conectar con el servidor");
+    }
+  };
+
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,9 +241,14 @@ function Perfil() {
               <label>Categorías asociadas</label>
               <div className="categorias-box"> {/* <-- AGREGAR: Un contenedor para la lista */}
                 {usuario.categorias && usuario.categorias.length > 0 ? (
-                  <ul> {/* La lista ahora va aquí adentro */}
+                  <ul> 
                     {usuario.categorias.map((cat) => (
-                      <li key={cat.id}>{cat.nombre}</li>
+                      <li key={cat.id} className="categoria-item">
+                        <span>{cat.nombre_categoria}</span>
+                        <button type="button" onClick={() => handleAbrirModal(cat)} className="edit-category-btn">
+                           ✏️ {/* Ícono de lápiz */}
+                        </button>
+                      </li>
                     ))}
                   </ul>
                 ) : (
@@ -149,6 +263,54 @@ function Perfil() {
           {mensaje && <p className="perfil-mensaje">{mensaje}</p>}
         </div>
       </main>
+      {modalVisible && categoriaSeleccionada && (
+        <>
+            <div className="modal-overlay" onClick={handleCerrarModal}></div>
+            <div className="modal-container">
+                <div className="modal-header">
+                    <h3>Editar Categoría</h3>
+                    <button onClick={handleCerrarModal} className="modal-close-btn">&times;</button>
+                </div>
+                <div className="modal-body">
+                    <div className="form-group">
+                        <label htmlFor="nombre_categoria">Nombre:</label>
+                        <input 
+                            type="text" 
+                            id="nombre_categoria"
+                            name="nombre_categoria"
+                            value={categoriaSeleccionada.nombre_categoria}
+                            onChange={handleCategoriaChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="descripcion">Descripción:</label>
+                        <input 
+                            type="text" 
+                            id="descripcion"
+                            name="descripcion"
+                            value={categoriaSeleccionada.descripcion}
+                            onChange={handleCategoriaChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="color">Color:</label>
+                        <input 
+                            type="color" 
+                            id="color"
+                            name="color"
+                            value={categoriaSeleccionada.color}
+                            onChange={handleCategoriaChange}
+                            className="color-picker"
+                        />
+                    </div>
+                </div>
+                <div className="modal-footer">
+                    <button onClick={handleGuardarCategoria} className="modal-btn-guardar">Guardar</button>
+                    <button onClick={handleEliminarCategoria} className="modal-btn-eliminar">Eliminar</button>
+                </div>
+            </div>
+        </>
+      )}
     </div>
   );
 }
