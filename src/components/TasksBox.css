@@ -1,0 +1,104 @@
+.TasksBox {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 25px 30px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(15, 67, 53, 0.2);
+  padding-bottom: 8px;
+}
+
+.tasks-header h2 {
+  
+  margin: 0;
+  font-size: 1.4rem;
+  color: #0f4335;
+}
+
+.create-task-btn {
+  
+  background-color: #0f4335;
+  color: #f2f0e9;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-task-btn:hover {
+  background-color: #136c54;
+}
+
+.tasks-table-container {
+  overflow-y: auto;
+  max-height: 400px;
+  /* Limita la altura y permite scroll */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(15, 67, 53, 0.1);
+  color: #0f4335;
+}
+
+th {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+td.actions {
+  text-align: center;
+}
+
+td.actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin: 0 5px;
+}
+
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.status-pendiente {
+  background-color: #f39c12;
+}
+
+.status-en-progreso {
+  background-color: #3498db;
+}
+
+.status-completada {
+  background-color: #2ecc71;
+}

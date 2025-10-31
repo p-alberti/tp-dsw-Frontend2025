@@ -31,6 +31,8 @@ body {
   width: 100%;
   background-color: #d1cbb6;
   padding: 40px;
+  box-sizing: border-box;
+  gap: 50px;
 }
 
 /* Ahora le damos tamaños relativos a los hijos directos del ContenidoPrincipal */
@@ -50,3 +52,18 @@ body {
   /* Límite para que no se estire demasiado en pantallas grandes */
 }
 
+.ContenidoPrincipal>.TasksBox {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 25px 30px;
+  width: 100%;
+  max-width: fit-content;
+  /* <-- Esta es la clave para hacerlo más pequeño */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-shrink: 0;
+  /* <-- Añadido: Evita que la caja se encoja si no hay espacio */
+}

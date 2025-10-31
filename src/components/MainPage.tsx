@@ -1,6 +1,7 @@
 import React from "react";
 import BarraSuperior from "./BarraSuperior.tsx";
 import FocusBox from "./FocusBox.tsx";
+import TasksBox from "./TasksBox.tsx";
 import "./MainPage.css";
 
 function MainPage() {
@@ -10,6 +11,7 @@ function MainPage() {
       <BarraSuperior />
       <div className="ContenidoPrincipal">
         <FocusBox />
+        <TasksBox />
       </div>
     </div>
   );
