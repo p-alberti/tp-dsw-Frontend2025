@@ -119,12 +119,12 @@
 }
 .RelojWrapper.activo .RelojTitulo {
   opacity: 1;
-  color: #c26c06;
+  color: #5da872;
   /* Un color llamativo para el título activo */
 }
 
 .RelojWrapper.activo .RelojInteractivo {
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px #c26c06;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px #5da872;
   /* Sombra exterior para resaltar */
 }
 

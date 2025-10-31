@@ -12,8 +12,11 @@ const CONFIGURACION_RELOJES = {
   largo: { titulo: "Recreo Largo", tipo: "secundario" as const },
 };
 
-// ¡LA CLAVE DE LA ESCALABILIDAD! Defines el ciclo como una lista de claves.
-// Puedes reordenarlo, repetirlo, etc., y la lógica funcionará.
+interface Categoria {
+  id: number;
+  nombre_categoria: string;
+  color: string;
+}
 
 function FocusBox() {
   const { token } = useAuth();
@@ -57,7 +60,7 @@ function FocusBox() {
   const [pasoActual, setPasoActual] = useState(0); // Índice del array CICLO_POMODORO
   const [tiempoRestante, setTiempoRestante] = useState(tiempos.foco.min * 60 + tiempos.foco.seg);
   const [estaActivo, setEstaActivo] = useState(false);
-  const [selectedCategoria, setSelectedCategoria] = useState<string>('');
+  const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(null);
   const [mensajeError, setMensajeError] = useState<string>('');
   const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
 
@@ -169,7 +172,7 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
       tiempo_foco: tiempos.foco.min,
       fecha_hora_creacion: new Date().toISOString(),
       duracion: 0,
-      categoria: parseInt(selectedCategoria, 10),
+      categoria: selectedCategoria.id,
     };
 
     try {
@@ -254,15 +257,27 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
   const clavePasoActivo = cicloDinamico[pasoActual];
   const displayMinutos = Math.floor(tiempoRestante / 60);
   const displaySegundos = tiempoRestante % 60;
+  const focusBoxClasses = `FocusBox ${currentSessionId !== null ? 'session-active' : ''}`;
 
   return (
-    <div className="FocusBox">
+    <div className={focusBoxClasses}>
+      {currentSessionId !== null && selectedCategoria && (
+        <div 
+          className="CategoriaTag" 
+          style={{ backgroundColor: selectedCategoria.color }}
+        >
+          {selectedCategoria.nombre_categoria}
+        </div>
+      )}
       <div className="ContenidoFocusBox"> {/* Contenedor Flex para alinear horizontalmente */}
         
-        <SessionBox 
-          selectedCategoria={selectedCategoria}
-          onCategoriaChange={setSelectedCategoria}
-        /> {/* Componente de sesión ahora está aquí */}
+        {currentSessionId === null && (
+          <SessionBox 
+            // Pasamos el ID como string (o vacío) para el value del select
+            selectedCategoriaId={selectedCategoria?.id.toString() || ''}
+            onCategoriaChange={setSelectedCategoria}
+          />
+        )}
         
         {/* Agrupamos los relojes y botones en su propio contenedor para alinearlos verticalmente */}
         <div className="ContenedorTimers">

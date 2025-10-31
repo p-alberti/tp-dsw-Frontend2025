@@ -8,14 +8,15 @@ import "./SessionBox.css";
 interface Categoria {
   id: number;
   nombre_categoria: string;
+  color: string;
 }
 
 interface SessionBoxProps {
-  selectedCategoria: string;
-  onCategoriaChange: (id: string) => void;
+  selectedCategoriaId: string;
+  onCategoriaChange: (categoria: Categoria | null) => void;
 }
 
-function SessionBox({ selectedCategoria, onCategoriaChange}: SessionBoxProps) {
+function SessionBox({ selectedCategoriaId, onCategoriaChange}: SessionBoxProps) {
   const { token } = useAuth();
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,11 +53,22 @@ function SessionBox({ selectedCategoria, onCategoriaChange}: SessionBoxProps) {
       // CAMBIAR: Usamos la función del servicio en lugar de fetch
       const nuevaCategoriaData = await createCategoria(data, token);
       setCategorias([...categorias, nuevaCategoriaData.data]);
-      onCategoriaChange(nuevaCategoriaData.data.id.toString());
+      onCategoriaChange(nuevaCategoriaData.data);
       setIsCreating(false);
     } catch (error) {
       console.error("Error al crear la categoría:", error);
       alert("No se pudo crear la categoría. Intenta de nuevo.");
+    }
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const categoriaId = e.target.value;
+    if (!categoriaId) {
+      onCategoriaChange(null);
+    } else {
+      // Buscamos el objeto completo y lo pasamos al padre
+      const categoriaSeleccionada = categorias.find(cat => cat.id.toString() === categoriaId);
+      onCategoriaChange(categoriaSeleccionada || null);
     }
   };
 
@@ -66,8 +78,8 @@ function SessionBox({ selectedCategoria, onCategoriaChange}: SessionBoxProps) {
         <h2>Seleccionar Categoría</h2>
         <select
           className="SelectorSesion"
-          value={selectedCategoria}
-          onChange={(e) => onCategoriaChange(e.target.value)}
+          value={selectedCategoriaId}
+          onChange={handleSelectChange}
           disabled={isLoading || categorias.length === 0}
         >
           {isLoading ? (

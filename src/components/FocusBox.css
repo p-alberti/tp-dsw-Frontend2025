@@ -7,6 +7,7 @@
     padding: 60px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     gap: 30px;
@@ -84,4 +85,23 @@
 
 .BotonDetener:hover {
     background-color: #a83b3b;
+}
+
+.CategoriaTag {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+}
+
+.FocusBox.session-active .ContenidoFocusBox {
+    justify-content: center;
+    /* Centra los timers cuando el SessionBox desaparece */
 }
