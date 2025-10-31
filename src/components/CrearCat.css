@@ -1,15 +1,13 @@
-/* --- Capa de fondo oscura y borrosa (esta parte estaba bien) --- */
+/* --- Capa de fondo oscura y borrosa --- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  /* reemplaza top, left, width, height con una sola línea */
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  /* 🔹 más alto que todo el resto */
   animation: fadeInOverlay 0.3s ease-out;
   border-radius: 25px;
 }
@@ -57,7 +55,7 @@
   transform: rotate(90deg);
 }
 
-/* --- Título del modal, con el estilo de tus otras "tarjetas" --- */
+/* --- Título del modal, con el estilo de tarjetas --- */
 .modal-content h2 {
   text-align: center;
   color: #0f4335;
@@ -67,10 +65,9 @@
   margin: 0 0 25px 0;
   padding-bottom: 10px;
   border-bottom: 2px solid rgba(15, 67, 53, 0.2);
-  /* Borde inferior característico */
 }
 
-/* --- Estilos unificados para el formulario --- */
+/* --- Estilos para el formulario --- */
 .create-category-form .form-group {
   margin-bottom: 20px;
 }
@@ -87,7 +84,7 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* --- ESTE ES EL CAMBIO MÁS IMPORTANTE: El estilo de los inputs --- */
+/* ---El estilo de los inputs --- */
 .modal-input,
 .color-input-wrapper {
   width: 100%;
@@ -95,7 +92,6 @@
   border: 1px solid rgba(15, 67, 53, 0.5);
   border-radius: 12px;
   background-color: #f0ede4;
-  /* El mismo beige de tus otros inputs */
   font-size: 1rem;
   color: #0f4335;
   transition: all 0.2s ease;
@@ -117,10 +113,9 @@ textarea.modal-input {
   resize: vertical;
 }
 
-/* --- Estilo específico para el selector de color --- */
+/* --- Estilo para el selector de color --- */
 .color-input-wrapper {
   padding: 5px;
-  /* Padding para el contenedor */
 }
 
 .color-input {
@@ -132,7 +127,6 @@ textarea.modal-input {
   padding: 0;
 }
 
-/* Oculta los controles por defecto del selector de color en Webkit/Blink */
 .color-input::-webkit-color-swatch-wrapper {
   padding: 0;
 }
@@ -143,7 +137,7 @@ textarea.modal-input {
 }
 
 
-/* --- Botón de guardar, ahora consistente con los demás --- */
+/* --- Botón de guardar --- */
 .save-button {
   width: 100%;
   padding: 12px;
@@ -151,7 +145,6 @@ textarea.modal-input {
   color: #f2f0e9;
   border: none;
   border-radius: 20px;
-  /* Borde redondeado consistente */
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
@@ -169,7 +162,7 @@ textarea.modal-input {
   cursor: not-allowed;
 }
 
-/* Animación de entrada (esta estaba bien) */
+/* Animación de entrada */
 @keyframes fadeInOverlay {
   from {
     opacity: 0;

@@ -1,14 +1,13 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
-// Definimos la forma de los datos del usuario que guardamos
+//como guardamos al usuario
 interface Usuario {
   id: number;
   nombre: string;
   apellido: string;
   username: string;
   mail: string;
-  fechaNac: string; // como string para JSON
+  fechaNac: string; 
   categorias?: Categoria[];
 }
 
@@ -17,7 +16,6 @@ interface Categoria {
   nombre: string;
 }
 
-// Definimos lo que nuestro contexto va a proveer
 interface AuthContextType {
     usuario: Usuario | null;
     token: string | null;
@@ -26,41 +24,39 @@ interface AuthContextType {
     refreshUser: () => Promise<void>;
 }
 
-// Creamos el contexto con un valor por defecto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Creamos el "Proveedor" del contexto. Este es el componente que envolverá nuestra app
+//proveedor de contexto - envuelve la app
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [usuario, setUser] = useState<Usuario | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
-    // Este efecto se ejecuta solo una vez cuando la app carga
     useEffect(() => {
         const storedToken = localStorage.getItem('authToken');
         const storedUserData = localStorage.getItem('userData');
 
         if (storedToken && storedUserData) {
+            const parsed = JSON.parse(storedUserData);
             setToken(storedToken);
-            setUser(JSON.parse(storedUserData));
+            setUser(parsed.data ? parsed.data : parsed);
         }
     }, []);
 
     const login = (newToken: string, userData: Usuario) => {
-        // 1. Actualiza el estado del contexto
+        // actualiza el estado del contexto
         setToken(newToken);
         setUser(userData);
-        // 2. Guarda los datos en localStorage
+        // guarda los datos en localStorage
         localStorage.setItem('authToken', newToken);
         localStorage.setItem('userData', JSON.stringify(userData));
     };
 
     const logout = () => {
-        // Limpia el estado y el localStorage
+        //limpia el estado y el localStorage
         setUser(null);
         setToken(null);
         localStorage.removeItem('authToken');
         localStorage.removeItem('userData');
-        // Opcional: redirigir al login
         window.location.href = '/Login';
     };
     
@@ -68,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!usuario || !token) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/usuarios/${usuario.id}`, {
+      const res = await fetch(`http://localhost:3000/api/users/${usuario.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -92,7 +88,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 };
 
 
-// Creamos un "custom hook" para consumir el contexto fácilmente
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);

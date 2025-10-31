@@ -10,7 +10,7 @@ interface ContadorProps {
 
 function ContadorIter({ count, onCountChange, disabled, isModifiable }: ContadorProps) {
   const handleIncrement = () => onCountChange(count + 1);
-  const handleDecrement = () => onCountChange(Math.max(1, count - 1)); // No permitir menos de 1 iteración
+  const handleDecrement = () => onCountChange(Math.max(1, count - 1)); //no permitir menos de 1 iteración
 
   return (
     <div className={`ContadorIter ${disabled ? 'disabled' : ''}`}>

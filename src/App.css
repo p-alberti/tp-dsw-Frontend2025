@@ -9,22 +9,19 @@ h1 {
 
 body {
   margin: 0;
-  background-color: #CADC9F; /* El color de fondo verde de tu imagen */
+  background-color: #CADC9F; 
   font-family: sans-serif;
 }
 
 .App {
-  /* Hacemos que la app ocupe toda la pantalla y sea un contenedor flex */
   min-height: 100vh; 
   display: flex;
   flex-direction: column; 
 }
 
-/* Esta es la clase más importante para el centrado */
+
 .ContenidoPrincipal {
-  flex-grow: 1; /* Hace que esta sección ocupe todo el espacio sobrante */
-  
-  /* El truco mágico para centrar perfectamente */
+  flex-grow: 1; 
   display: grid;
   place-items: center;
 }

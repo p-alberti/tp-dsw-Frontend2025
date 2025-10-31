@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Incluye padding y border en el tamaño total del elemento */
 }
 
 html,
@@ -10,7 +9,6 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  /* Oculta el scroll vertical y horizontal en toda la página */
 }
 
 .MainPage {
@@ -23,10 +21,8 @@ body {
 .ContenidoPrincipal {
   display: flex;
   justify-content: center;
-  /* Cambiamos a 'center' para un mejor control */
   align-items: center;
   gap: 5%;
-  /* Usamos un gap porcentual para que sea más flexible */
   flex-grow: 1;
   width: 100%;
   background-color: #d1cbb6;
@@ -35,21 +31,15 @@ body {
   gap: 50px;
 }
 
-/* Ahora le damos tamaños relativos a los hijos directos del ContenidoPrincipal */
 .ContenidoPrincipal>.SessionBox {
   flex-basis: 280px;
-  /* Ancho base */
   flex-shrink: 0;
-  /* Evita que se encoja */
 }
 
 .ContenidoPrincipal>.FocusBox {
   flex-basis: 700px;
-  /* Ancho base más grande */
   flex-grow: 1;
-  /* Permite que crezca para ocupar espacio */
   max-width: 1000px;
-  /* Límite para que no se estire demasiado en pantallas grandes */
 }
 
 .ContenidoPrincipal>.TasksBox {
@@ -59,11 +49,9 @@ body {
   padding: 25px 30px;
   width: 100%;
   max-width: fit-content;
-  /* <-- Esta es la clave para hacerlo más pequeño */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   gap: 18px;
   flex-shrink: 0;
-  /* <-- Añadido: Evita que la caja se encoja si no hay espacio */
 }

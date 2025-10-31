@@ -7,7 +7,7 @@
   font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* === Caja principal === */
+/* === caja principal === */
 .LoginBox {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(8px);
@@ -23,7 +23,7 @@
 
 
 
-/* === Título === */
+/* === titulo === */
 .LoginBox h2 {
   font-size: 1.8rem;
   font-weight: 700;
@@ -50,7 +50,7 @@
   outline: none;
 }
 
-/* === Botón principal === */
+/* === boton principal === */
 .LoginButton {
   background-color: #0f4335;
   color: #f2f0e9;
@@ -69,7 +69,7 @@
   transform: translateY(-2px);
 }
 
-/* === Botón volver === */
+/* === boton volver === */
 .LoginBack {
   margin-top: 18px;
   color: #0f4335;

@@ -1,9 +1,8 @@
-// src/main.tsx
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'   //  Esto ya lo tenías
-import { AuthProvider } from './context/AuthContext.tsx'; //  1. Importamos nuestro AuthProvider
+import { BrowserRouter } from 'react-router-dom'  
+import { AuthProvider } from './context/AuthContext.tsx'; 
 import './index.css'
 import App from './App.tsx'
 

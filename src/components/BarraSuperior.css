@@ -19,7 +19,6 @@
     border-color: #0f4335;
     border-style: solid;
     border-width: 1px;
-    /* Alinea el menú a la derecha del botón */
 }
 
 
@@ -58,12 +57,10 @@
 /* === TITULO (LOGO) === */
 .Logo {
     background: none;
-    /* quita el recuadro */
 }
 
 .Logo h1 {
     background: none;
-    /* quita cualquier fondo residual */
     font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
@@ -76,7 +73,6 @@
     color: #e8e1c4;
     font-weight: 500;
     background: none;
-    /* quita el verde claro */
 }
 
 /* === BOTÓN DE LOGIN === */
@@ -89,7 +85,6 @@
 .BotonLogin {
     background: none;
     background-color: #0f4335; 
-    /* verde oscuro */
     color: #d1cbb6;
     border: none;
     outline: none;
@@ -103,19 +98,17 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Estado hover */
 .BotonLogin:hover {
     background-color: #145c49;
     transform: translateY(-2px);
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
 }
 
-/* Estado clic */
 .BotonLogin:active {
     transform: scale(0.97);
 }
 
-/* Estado focus */
+
 .BotonLogin:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(20, 92, 73, 0.4);

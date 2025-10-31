@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.tsx";
 import "./BarraSuperior.css";
 
+
 function BarraSuperior() {
   const navigate = useNavigate();
-  const { usuario, logout } = useAuth(); // 3. Obtiene el usuario y la función logout del contexto
-  const [isDropdownOpen, setDropdownOpen] = useState(false); // 4. Estado para el menú desplegable
+  const { usuario, logout } = useAuth(); // obtiene el usuario y la función logout del contexto
+  const [isDropdownOpen, setDropdownOpen] = useState(false); //estado para el menú desplegable
 
   const handleLogout = () => {
-    setDropdownOpen(false); // Cierra el menú
-    logout(); // Llama a la función de logout del contexto
+    setDropdownOpen(false); // cierra el menú desplegable
+    logout(); //llama a la función de logout del contexto
   };
 
+  console.log('usuario: ', usuario)
   return (
     <header className="BarraSuperior">
       <div className="Logo">
@@ -21,7 +23,7 @@ function BarraSuperior() {
 
       <nav className="NavDerecha">
         {usuario ? (
-          // Si hay un usuario logueado, muestra este menú:
+          //render condicional - si hay usuario muestra el menu
           <div className="user-menu">
             <button 
               className="BotonLogin" 
@@ -38,7 +40,7 @@ function BarraSuperior() {
             )}
           </div>
         ) : (
-          // Si NO hay usuario, muestra el botón de siempre:
+          //si no hay usuario - muestra el boton
           <button className="BotonLogin" onClick={() => navigate("/Login")}>
             Log in / Sign up
           </button>

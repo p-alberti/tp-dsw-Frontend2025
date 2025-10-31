@@ -15,7 +15,7 @@ interface FormData {
 
 function Registro() {
   const navigate = useNavigate();
-  // Usamos un único estado para todo el formulario, es más limpio
+  //estado unico para el form
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
     apellido: "",
@@ -41,10 +41,10 @@ function Registro() {
     setLoading(true);
 
     try {
-      // Llamamos a la función del servicio con todos los datos del formulario
+      // call a la funcion de registro enviando datos del form
       await registerUser(formData);
       
-      // Si todo sale bien, mostramos un mensaje y redirigimos al login
+      //si la res es exitosa se redirige al login
       alert(`¡Registro exitoso para ${formData.nombre}! Ahora puedes iniciar sesión.`);
       navigate("/Login");
 

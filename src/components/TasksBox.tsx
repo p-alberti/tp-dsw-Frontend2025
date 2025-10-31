@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-// CAMBIAR: Importamos todas las funciones necesarias
 import { getMyTasks, createTask, updateTask, deleteTask } from '../services/tareaApi.ts';
 import type { TaskData } from '../services/tareaApi.ts';
 import './TasksBox.css';
-import CreateTaskModal from './CrearTarea.tsx'; // Importa el nuevo modal
+import CreateTaskModal from './CrearTarea.tsx';
 
 interface Task extends TaskData {
   id: number;
@@ -39,12 +38,12 @@ function TasksBox() {
   }, [token]);
 
   const handleOpenCreateModal = () => {
-    setTaskToEdit(null); // Nos aseguramos de que no haya una tarea para editar
+    setTaskToEdit(null); // seteamos las tareas a editar a null
     setIsModalOpen(true);
   };
 
   const handleOpenEditModal = (task: Task) => {
-    setTaskToEdit(task); // Pasamos la tarea al estado de edición
+    setTaskToEdit(task); //ponemos tarea en edicion
     setIsModalOpen(true);
   };
 
@@ -53,7 +52,7 @@ function TasksBox() {
       try {
         if (!token) return;
         await deleteTask(taskId, token);
-        // Actualizamos el estado para reflejar el cambio al instante
+        // actualizamos para reflejar el cambio
         setTasks(tasks.filter(task => task.id !== taskId));
       } catch (error) {
         console.error("Error al eliminar la tarea:", error);
@@ -67,15 +66,15 @@ function TasksBox() {
       if (!token) return;
       
       if (taskToEdit) {
-        // --- Lógica de ACTUALIZACIÓN ---
+        // --- Lógica de cambios ---
         const response = await updateTask(taskToEdit.id, taskData, token);
         setTasks(tasks.map(t => (t.id === taskToEdit.id ? response.data : t)));
       } else {
-        // --- Lógica de CREACIÓN ---
+        // --- Lógica de creación ---
         const response = await createTask(taskData, token);
         setTasks([...tasks, response.data]);
       }
-      setIsModalOpen(false); // Cerramos el modal en ambos casos
+      setIsModalOpen(false);
       setTaskToEdit(null);
     } catch (error) {
       console.error("Error al guardar la tarea:", error);
@@ -131,7 +130,6 @@ return (
             </tbody>
           </table>
         </div>
-        {/* {isCreating && <CreateTaskModal onClose={() => setIsCreating(false)} onSave={handleSaveTask} />} */}
       </div>
       
     {isModalOpen && (

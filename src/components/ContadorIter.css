@@ -19,7 +19,6 @@
   background-color: #e0dccc;
   border-radius: 8px;
   min-width: 30px;
-  /* Ancho mínimo para que no salte el layout */
   text-align: center;
 }
 

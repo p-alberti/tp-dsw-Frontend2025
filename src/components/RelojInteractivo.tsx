@@ -4,11 +4,11 @@ import ContadorIter from './ContadorIter.tsx';
 
 interface RelojProps {
   titulo?: string;
-  minutos: number; // Ya no es 'iniciales', es el valor actual
-  segundos: number; // Ya no es 'iniciales', es el valor actual
+  minutos: number; 
+  segundos: number; 
   tipo: 'principal' | 'secundario';
-  estaActivo: boolean; // Prop para saber si es el reloj que está corriendo
-  estaDeshabilitado: boolean; // Prop para deshabilitar los controles
+  estaActivo: boolean; // prop para saber si  el reloj está corriendo
+  estaDeshabilitado: boolean; // prop para deshabilitar los controles
   onTiempoChange: (unidad: 'minutos' | 'segundos', cantidad: number) => void; // Función para notificar al padre del cambio
   iteraciones: number;
   onIteracionesChange: (newCount: number) => void;
@@ -22,7 +22,7 @@ function RelojInteractivo({ titulo, minutos, segundos, tipo, estaActivo, estaDes
   const segDecenas = Math.floor(segundos / 10);
   const segUnidades = segundos % 10;
   
-  // Clases CSS dinámicas para el feedback visual
+  // Clases CSS dinámicas para el feedback 
   const wrapperClasses = `RelojWrapper ${tipo} ${estaActivo ? 'activo' : ''}`;
 
   const DigitColumn = ({ value, unidad, cantidad }) => (

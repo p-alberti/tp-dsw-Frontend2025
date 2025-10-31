@@ -49,17 +49,17 @@ function Perfil() {
 
     // Abre el modal y carga la categoría seleccionada
   const handleAbrirModal = (categoria: Categoria) => {
-    setCategoriaSeleccionada({ ...categoria }); // Copiamos la categoría para evitar mutaciones directas
+    setCategoriaSeleccionada({ ...categoria });//copia la categoria seleccionada
     setModalVisible(true);
   };
 
-  // Cierra el modal y resetea la categoría
+  // cierra el modal y resetea la categoria
   const handleCerrarModal = () => {
     setModalVisible(false);
     setCategoriaSeleccionada(null);
   };
   
-  // Maneja los cambios en los inputs del modal
+  //manejo de inputs en el modal
   const handleCategoriaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (categoriaSeleccionada) {
         setCategoriaSeleccionada({
@@ -69,7 +69,7 @@ function Perfil() {
     }
   };
 
-  // Lógica para guardar (por ahora solo cierra el modal)
+  //guardado del cambios
   const handleGuardarCategoria = async () => {
     if (!categoriaSeleccionada) return;
 
@@ -91,9 +91,9 @@ function Perfil() {
 
       if (res.ok) {
         const data = await res.json();
-        console.log("✅ Categoría modificada con éxito:", data);
+        console.log("Categoría modificada con éxito:", data);
 
-        // Actualizamos el usuario local con la categoría modificada
+        // actualizacion
         setUsuario((prevUsuario) => {
           if (!prevUsuario) return prevUsuario;
           const nuevasCategorias = prevUsuario.categorias.map((cat: Categoria) =>
@@ -102,20 +102,20 @@ function Perfil() {
           return { ...prevUsuario, categorias: nuevasCategorias };
         });
 
-        setMensaje("✅ Categoría actualizada con éxito");
+        setMensaje("Categoría actualizada con éxito");
         handleCerrarModal();
       } else {
         const errData = await res.json();
-        console.error("❌ Error al modificar categoría:", errData);
-        setMensaje(`❌ Error al modificar: ${errData.message}`);
+        console.error("Error al modificar categoría:", errData);
+        setMensaje(`Error al modificar: ${errData.message}`);
       }
     } catch (error) {
-      console.error("⚠️ Error de conexión:", error);
-      setMensaje("⚠️ No se pudo conectar con el servidor");
+      console.error("Error de conexión:", error);
+      setMensaje("No se pudo conectar con el servidor");
     }
   };
 
-  // Lógica para eliminar (por ahora solo cierra el modal)
+  // eliminacion de categoria
   const handleEliminarCategoria = async () => {
     if (!categoriaSeleccionada) return;
     if (!window.confirm(`¿Estás seguro de eliminar "${categoriaSeleccionada.nombre_categoria}"?`)) return;
@@ -127,7 +127,7 @@ function Perfil() {
       });
 
       if (res.ok) {
-        console.log("✅ Categoría eliminada correctamente");
+        console.log("Categoría eliminada correctamente");
         setUsuario((prevUsuario) => {
           if (!prevUsuario) return prevUsuario;
           const nuevasCategorias = prevUsuario.categorias.filter(
@@ -135,16 +135,16 @@ function Perfil() {
           );
           return { ...prevUsuario, categorias: nuevasCategorias };
         });
-        setMensaje("✅ Categoría eliminada con éxito");
+        setMensaje("Categoría eliminada con éxito");
         handleCerrarModal();
       } else {
         const errData = await res.json();
-        console.error("❌ Error al eliminar categoría:", errData);
-        setMensaje(`❌ Error al eliminar: ${errData.message}`);
+        console.error("Error al eliminar categoría:", errData);
+        setMensaje(`Error al eliminar: ${errData.message}`);
       }
     } catch (error) {
-      console.error("⚠️ Error de conexión:", error);
-      setMensaje("⚠️ No se pudo conectar con el servidor");
+      console.error(" Error de conexión:", error);
+      setMensaje("No se pudo conectar con el servidor");
     }
   };
 
@@ -152,23 +152,26 @@ function Perfil() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const { id, categorias, ...usuarioEditable } = usuario;
+      console.log("Usuario enviado al back:", usuario);
+      console.log("UsuarioEditable enviado al back:", usuarioEditable);
       const res = await fetch("http://localhost:3000/api/users/perfil/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify(usuarioEditable),
       });
 
       if (res.ok){
-        setMensaje("✅ Perfil actualizado con éxito");
+        setMensaje("Perfil actualizado con éxito");
         await refreshUser();
       } 
-      else setMensaje("❌ Error al actualizar perfil");
+      else setMensaje("Error al actualizar perfil");
     } catch (err) {
       console.error(err);
-      setMensaje("⚠️ Error de conexión");
+      setMensaje("Error de conexión");
     }
   };
 
@@ -239,14 +242,14 @@ function Perfil() {
 
             <div className="form-group">
               <label>Categorías asociadas</label>
-              <div className="categorias-box"> {/* <-- AGREGAR: Un contenedor para la lista */}
+              <div className="categorias-box"> 
                 {usuario.categorias && usuario.categorias.length > 0 ? (
                   <ul> 
                     {usuario.categorias.map((cat) => (
                       <li key={cat.id} className="categoria-item">
                         <span>{cat.nombre_categoria}</span>
                         <button type="button" onClick={() => handleAbrirModal(cat)} className="edit-category-btn">
-                           ✏️ {/* Ícono de lápiz */}
+                           ✏️ 
                         </button>
                       </li>
                     ))}

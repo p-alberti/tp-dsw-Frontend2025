@@ -18,16 +18,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px; /* Espacio entre el SessionBox y los relojes */
+    gap: 50px;
     width: 100%;
 }
 
-/*Contenedor para los relojes y botones, para que se apilen verticalmente */
+/*Contenedor para los relojes y botones */
 .ContenedorTimers {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px; /* Espacio entre el reloj principal, los secundarios y el botón */
+    gap: 25px; 
 }
 
 .BotonesContainer {
@@ -59,28 +59,21 @@
     display: flex;
     justify-content: center;
     gap: 40px;
-    /* Espacio entre los dos relojes pequeños */
     width: 100%;
 }
 
-/* FocusBox.css */
-
-/* --- AÑADIR ESTE ESTILO AL FINAL DEL ARCHIVO --- */
 .MensajeError {
     color: #c74343;
-    /* Un color rojo para la alerta */
     font-weight: bold;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 0.9rem;
     margin-top: 15px;
-    /* Espacio para separarlo del botón */
     text-align: center;
     width: 100%;
 }
 
 .BotonDetener {
     background-color: #8c2a2a;
-    /* Un color rojizo para indicar una acción destructiva */
 }
 
 .BotonDetener:hover {
@@ -103,5 +96,4 @@
 
 .FocusBox.session-active .ContenidoFocusBox {
     justify-content: center;
-    /* Centra los timers cuando el SessionBox desaparece */
 }

@@ -8,13 +8,13 @@ const ESTADOS_POSIBLES = ['Pendiente', 'En Progreso', 'Completada'];
 interface ModalProps {
   onClose: () => void;
   onSave: (data: TaskData) => Promise<void>;
-  taskToEdit?: TaskData | null; // Opcional: si pasamos una tarea, estamos en modo edición
+  taskToEdit?: TaskData | null; // si no es null se está editando
 }
 
 function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [estado, setEstado] = useState(ESTADOS_POSIBLES[0]); // Estado por defecto
+  const [estado, setEstado] = useState(ESTADOS_POSIBLES[0]); //si no se elige pone el primero
   const [isSaving, setIsSaving] = useState(false);
 
   // useEffect para rellenar el formulario si estamos en modo edición
@@ -42,8 +42,6 @@ function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
   };
 
   return (
-    // Usaremos un Portal como la última vez para evitar problemas de CSS
-    // (Asegúrate de tener <div id="modal-root"></div> en tu index.html)
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={onClose}>×</button>

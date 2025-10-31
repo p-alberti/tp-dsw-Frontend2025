@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './CrearCat.css';
 
-// Definimos la data que el modal enviará al padre
+//data que el modal enviará al padre
 interface CategoriaData {
   nombre_categoria: string;
   descripcion: string;
   color: string;
 }
 
-// Definimos las props que el componente recibirá
+// props que el componente recibirá
 interface ModalProps {
   onClose: () => void; // Función para cerrar el modal
   onSave: (data: CategoriaData) => Promise<void>; // Función para guardar
@@ -17,7 +17,7 @@ interface ModalProps {
 function CreateCategoryModal({ onClose, onSave }: ModalProps) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [color, setColor] = useState('#0f4335'); // Un color por defecto
+  const [color, setColor] = useState('#0f4335');
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ function CreateCategoryModal({ onClose, onSave }: ModalProps) {
       descripcion,
       color,
     });
-    // El 'onClose' se llamará desde el componente padre después de guardar
+    // onClose se llamará desde el componente padre después de guardar
   };
 
   return (
@@ -44,7 +44,7 @@ function CreateCategoryModal({ onClose, onSave }: ModalProps) {
           <div className="form-group">
             <label>Nombre de la Categoría</label>
             <input
-              className="modal-input" // CAMBIAR: Usaremos una clase común
+              className="modal-input"
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -55,7 +55,7 @@ function CreateCategoryModal({ onClose, onSave }: ModalProps) {
           <div className="form-group">
             <label>Descripción (Opcional)</label>
             <textarea
-              className="modal-input" // CAMBIAR: Usaremos una clase común
+              className="modal-input"
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
               placeholder="Una breve descripción de la categoría"
@@ -63,7 +63,6 @@ function CreateCategoryModal({ onClose, onSave }: ModalProps) {
           </div>
           <div className="form-group">
             <label>Color representativo</label>
-            {/* AGREGAR: Un div para estilizar mejor el input de color */}
             <div className="color-input-wrapper">
               <input
                 type="color"
