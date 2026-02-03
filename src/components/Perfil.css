@@ -101,9 +101,8 @@
 }
 
 .perfil-form button {
-  background-color: #0f4335;
   color: #d1cbb6;
-  border: none;
+  /* border: none; */
   border-radius: 15px;
   padding: 10px;
   font-weight: bold;
@@ -111,7 +110,11 @@
   transition: all 0.3s ease;
 }
 
-.perfil-form button:hover {
+.perfil-button-primary  {
+  background-color: #0f4335;
+}
+
+.perfil-button-primary:hover {
   background-color: #145a44;
   transform: translateY(-2px);
 }
@@ -162,26 +165,31 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-
-/* --- Botón principal --- */
-.perfil-button {
-  background-color: #0f4335;
+/* --- CAMBIO 1: Estilo para el nuevo botón de 'Cambiar Contraseña' --- */
+.perfil-button-secondary {
+  align-self: center;
+  width: 50%;
+  background-color: #3b3729;
+  /* Un color secundario, menos prominente */
   color: #f2f0e9;
   border: none;
-  border-radius: 20px;
-  padding: 12px 25px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
   font-weight: bold;
-  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  width: 100%;
+  transition: all 0.3s ease;
   margin-top: 10px;
+  /* Separación del botón de guardar */
 }
 
-.perfil-button:hover {
-  background-color: #136c54;
+.perfil-button-secondary:hover {
+  background-color: #5c5645;
   transform: translateY(-2px);
 }
+
+
+
 
 /* --- Link para volver atrás --- */
 .perfil-back-link {
@@ -253,7 +261,8 @@
 
 .edit-category-btn {
   background: none;
-  border: none;
+  border: 1px solid #729d5c;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1rem;
   /* Tamaño del emoji/ícono */
@@ -385,6 +394,7 @@
   border: none;
 }
 
+
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -405,12 +415,23 @@
 }
 
 .modal-btn-guardar {
+  border-radius: 15px;
+  align-self: center;
   background-color: #0f4335;
   color: #f2f0e9;
+  border: none;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .modal-btn-guardar:hover {
   background-color: #145a44;
+  transform: translateY(2px);
+
 }
 
 .modal-btn-eliminar {
@@ -421,6 +442,64 @@
 .modal-btn-eliminar:hover {
   background-color: #a53d3d;
 }
+
+/* Perfil.css */
+
+/* ... (todos tus estilos existentes) ... */
+
+
+
+/* --- CAMBIO 2: Estilos para el nuevo modal de la izquierda --- */
+
+.modal-container-left {
+  /* Copiamos los estilos del modal de la derecha, pero cambiamos la posición */
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* <-- Cambio clave */
+  width: 400px;
+  height: 100%;
+  background-color: #f2f0e9;
+  box-shadow: 5px 0px 25px rgba(0, 0, 0, 0.2);
+  /* Sombra a la derecha */
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  box-sizing: border-box;
+  /* Usamos una animación diferente para que deslice desde la izquierda */
+  animation: slideInFromLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Reutilizamos los estilos del body del modal, pero como el formulario ahora está dentro del modal,
+   necesitamos asegurarnos de que el flex funcione bien. */
+.modal-container-left .modal-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Un estilo para el footer cuando solo hay un botón */
+.modal-footer-single {
+  display: flex;
+  padding-top: 20px;
+  border-top: 2px solid #d1cbb6;
+}
+
+.modal-footer-single .modal-btn-guardar {
+  width: 100%;
+}
+
 
 html,
 body {

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.tsx";
 import "./BarraSuperior.css";
@@ -6,13 +6,17 @@ import "./BarraSuperior.css";
 
 function BarraSuperior() {
   const navigate = useNavigate();
-  const { usuario, logout } = useAuth(); // obtiene el usuario y la función logout del contexto
+  const { usuario, logout, refreshUser } = useAuth(); // obtiene el usuario y la función logout del contexto
   const [isDropdownOpen, setDropdownOpen] = useState(false); //estado para el menú desplegable
 
   const handleLogout = () => {
     setDropdownOpen(false); // cierra el menú desplegable
     logout(); //llama a la función de logout del contexto
   };
+
+  useEffect(() => {
+    refreshUser();
+  }, []);
 
   console.log('usuario: ', usuario)
   return (

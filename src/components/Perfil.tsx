@@ -28,6 +28,11 @@ function Perfil() {
   const [modalVisible, setModalVisible] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<Categoria | null>(null);
 
+  //estados para el formulario de contraseña
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -152,7 +157,7 @@ function Perfil() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { id, categorias, ...usuarioEditable } = usuario;
+      const { id, categorias, contraseña, ...usuarioEditable } = usuario;
       console.log("Usuario enviado al back:", usuario);
       console.log("UsuarioEditable enviado al back:", usuarioEditable);
       const res = await fetch("http://localhost:3000/api/users/perfil/update", {
@@ -175,14 +180,53 @@ function Perfil() {
     }
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setMensaje('Las nuevas contraseñas no coinciden.');
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        'http://localhost:3000/api/users/perfil/changePassword',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ currentPassword, newPassword }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMensaje('Contraseña actualizada con éxito.');
+        // Limpiar los campos
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setPasswordModalVisible(false); //cierra el modal
+      } else {
+        setMensaje(`Error: ${data.message}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setMensaje('Error de conexión');
+    }
+  };
+
   if (!usuario) return <p>Cargando perfil...</p>;
 
   return (
     <div className="layout-container">
-
       <header className="BarraSuperior">
         <div className="Logo">
-          <h1>Focus<span>Tracker</span></h1>
+          <h1>
+            Focus<span>Tracker</span>
+          </h1>
         </div>
       </header>
 
@@ -193,14 +237,15 @@ function Perfil() {
 
         <div className="perfil-box">
           <h2>Perfil de {usuario.nombre}</h2>
-
           <form onSubmit={handleSave} className="perfil-form">
             <div className="form-group">
               <label>Nombre:</label>
               <input
                 type="text"
                 value={usuario.nombre}
-                onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, nombre: e.target.value })
+                }
               />
             </div>
 
@@ -209,7 +254,9 @@ function Perfil() {
               <input
                 type="text"
                 value={usuario.apellido}
-                onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, apellido: e.target.value })
+                }
               />
             </div>
 
@@ -218,7 +265,9 @@ function Perfil() {
               <input
                 type="text"
                 value={usuario.username}
-                onChange={(e) => setUsuario({ ...usuario, username: e.target.value })}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, username: e.target.value })
+                }
               />
             </div>
 
@@ -227,7 +276,9 @@ function Perfil() {
               <input
                 type="email"
                 value={usuario.mail}
-                onChange={(e) => setUsuario({ ...usuario, mail: e.target.value })}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, mail: e.target.value })
+                }
               />
             </div>
 
@@ -236,20 +287,26 @@ function Perfil() {
               <input
                 type="date"
                 value={usuario.fechaNac.slice(0, 10)} // formateamos a yyyy-mm-dd
-                onChange={(e) => setUsuario({ ...usuario, fechaNac: e.target.value })}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, fechaNac: e.target.value })
+                }
               />
             </div>
 
             <div className="form-group">
               <label>Categorías asociadas</label>
-              <div className="categorias-box"> 
+              <div className="categorias-box">
                 {usuario.categorias && usuario.categorias.length > 0 ? (
-                  <ul> 
+                  <ul>
                     {usuario.categorias.map((cat) => (
                       <li key={cat.id} className="categoria-item">
                         <span>{cat.nombre_categoria}</span>
-                        <button type="button" onClick={() => handleAbrirModal(cat)} className="edit-category-btn">
-                           ✏️ 
+                        <button
+                          type="button"
+                          onClick={() => handleAbrirModal(cat)}
+                          className="edit-category-btn"
+                        >
+                          ✏️
                         </button>
                       </li>
                     ))}
@@ -260,7 +317,15 @@ function Perfil() {
               </div>
             </div>
 
-            <button type="submit">Guardar cambios</button>
+            <button
+              type = "button"
+              className="perfil-button-secondary"
+              onClick={() => setPasswordModalVisible(true)}
+            >
+              Cambiar contraseña
+            </button>
+
+            <button type="submit" className = "perfil-button-primary">Guardar cambios</button>
           </form>
 
           {mensaje && <p className="perfil-mensaje">{mensaje}</p>}
@@ -268,50 +333,115 @@ function Perfil() {
       </main>
       {modalVisible && categoriaSeleccionada && (
         <>
-            <div className="modal-overlay" onClick={handleCerrarModal}></div>
-            <div className="modal-container">
-                <div className="modal-header">
-                    <h3>Editar Categoría</h3>
-                    <button onClick={handleCerrarModal} className="modal-close-btn">&times;</button>
-                </div>
-                <div className="modal-body">
-                    <div className="form-group">
-                        <label htmlFor="nombre_categoria">Nombre:</label>
-                        <input 
-                            type="text" 
-                            id="nombre_categoria"
-                            name="nombre_categoria"
-                            value={categoriaSeleccionada.nombre_categoria}
-                            onChange={handleCategoriaChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="descripcion">Descripción:</label>
-                        <input 
-                            type="text" 
-                            id="descripcion"
-                            name="descripcion"
-                            value={categoriaSeleccionada.descripcion}
-                            onChange={handleCategoriaChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="color">Color:</label>
-                        <input 
-                            type="color" 
-                            id="color"
-                            name="color"
-                            value={categoriaSeleccionada.color}
-                            onChange={handleCategoriaChange}
-                            className="color-picker"
-                        />
-                    </div>
-                </div>
-                <div className="modal-footer">
-                    <button onClick={handleGuardarCategoria} className="modal-btn-guardar">Guardar</button>
-                    <button onClick={handleEliminarCategoria} className="modal-btn-eliminar">Eliminar</button>
-                </div>
+          <div className="modal-overlay" onClick={handleCerrarModal}></div>
+          <div className="modal-container">
+            <div className="modal-header">
+              <h3>Editar Categoría</h3>
+              <button onClick={handleCerrarModal} className="modal-close-btn">
+                &times;
+              </button>
             </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="nombre_categoria">Nombre:</label>
+                <input
+                  type="text"
+                  id="nombre_categoria"
+                  name="nombre_categoria"
+                  value={categoriaSeleccionada.nombre_categoria}
+                  onChange={handleCategoriaChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="descripcion">Descripción:</label>
+                <input
+                  type="text"
+                  id="descripcion"
+                  name="descripcion"
+                  value={categoriaSeleccionada.descripcion}
+                  onChange={handleCategoriaChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="color">Color:</label>
+                <input
+                  type="color"
+                  id="color"
+                  name="color"
+                  value={categoriaSeleccionada.color}
+                  onChange={handleCategoriaChange}
+                  className="color-picker"
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                onClick={handleGuardarCategoria}
+                className="modal-btn-guardar"
+              >
+                Guardar
+              </button>
+              <button
+                onClick={handleEliminarCategoria}
+                className="modal-btn-eliminar"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {passwordModalVisible && (
+        <>
+          <div
+            className="modal-overlay"
+            onClick={() => setPasswordModalVisible(false)}
+          ></div>
+          {/* Usamos una clase nueva para poder posicionarlo a la izquierda */}
+          <div className="modal-container-left">
+            <div className="modal-header">
+              <h3>Cambiar contraseña</h3>
+              <button
+                onClick={() => setPasswordModalVisible(false)}
+                className="modal-close-btn"
+              >
+                &times;
+              </button>
+            </div>
+            <form onSubmit={handleChangePassword} className="modal-body">
+              <div className="form-group">
+                <label>Contraseña actual:</label>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Nueva contraseña:</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirmar nueva contraseña:</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+                <button type="submit" className="modal-btn-guardar">
+                  Actualizar contraseña
+                </button>
+            </form>
+          </div>
         </>
       )}
     </div>

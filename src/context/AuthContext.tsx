@@ -61,31 +61,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     
     const refreshUser = async () => {
-    if (!usuario || !token) return;
+        const currentToken = token || localStorage.getItem('authToken');
 
-    try {
-      const res = await fetch(`http://localhost:3000/api/users/${usuario.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        if(!currentToken) return; 
 
-      if (res.ok) {
-        const updatedUser = await res.json();
-        setUser(updatedUser);
-        localStorage.setItem('userData', JSON.stringify(updatedUser));
+        try {
+        const res = await fetch(`http://localhost:3000/api/users/perfil/me`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error('Token inválido, no se pudo refrescar el usuario.');
         }
-    } catch (error) {
-        console.error('Error actualizando usuario:', error);
-    }
+
+        const updatedUserData = await res.json();
+
+        setUser(updatedUserData);
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+
+        } catch (error) {
+            console.error('Error actualizando usuario:', error);
+            logout();
+        }
     };
 
-    return (
-        <AuthContext.Provider value={{ usuario, token, login, logout, refreshUser }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+        return (
+            <AuthContext.Provider value={{ usuario, token, login, logout, refreshUser }}>
+                {children}
+            </AuthContext.Provider>
+        );
+    };
 
 
 // eslint-disable-next-line react-refresh/only-export-components
