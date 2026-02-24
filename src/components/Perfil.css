@@ -193,9 +193,9 @@
 
 /* --- Link para volver atrás --- */
 .perfil-back-link {
-  position: absolute;
+  position: fixed;
   /* Lo sacamos del flujo normal del documento */
-  top: 40px;
+  top: 110px;
   /* Lo alineamos con el padding superior de la página */
   left: 40px;
   color: #0f4335;
@@ -497,6 +497,16 @@
 }
 
 .modal-footer-single .modal-btn-guardar {
+  width: 100%;
+}
+
+.modal-mensaje-error {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #c94c4c;
+  /* Un color rojo para errores */
+  font-size: 1.1rem;
   width: 100%;
 }
 

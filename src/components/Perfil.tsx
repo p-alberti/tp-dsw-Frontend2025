@@ -33,6 +33,7 @@ function Perfil() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+  const [passwordModalMessage, setPasswordModalMessage] = useState('');
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -182,8 +183,11 @@ function Perfil() {
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setPasswordModalMessage(''); // Para limpiar los mensajes anteriores
+
     if (newPassword !== confirmPassword) {
-      setMensaje('Las nuevas contraseñas no coinciden.');
+      setPasswordModalMessage('Las nuevas contraseñas no coinciden.');
       return;
     }
 
@@ -204,19 +208,30 @@ function Perfil() {
 
       if (res.ok) {
         setMensaje('Contraseña actualizada con éxito.');
+        setPasswordModalVisible(false); // cierra modal
         // Limpiar los campos
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
         setPasswordModalVisible(false); //cierra el modal
       } else {
-        setMensaje(`Error: ${data.message}`);
+        setPasswordModalMessage(`Error: ${data.message}`);
       }
     } catch (err) {
       console.error(err);
-      setMensaje('Error de conexión');
+      setPasswordModalMessage('Error de conexión');
     }
   };
+
+  const handleOpenPasswordModal = () => {
+    setPasswordModalMessage(''); // Limpia cualquier mensaje de error anterior
+    setCurrentPassword('');      // Opcional: limpiar también los campos
+    setNewPassword('');
+    setConfirmPassword('');
+    setPasswordModalVisible(true);
+  }; //nos aseguramos de limpiar los campos del modal
+
+
 
   if (!usuario) return <p>Cargando perfil...</p>;
 
@@ -320,7 +335,7 @@ function Perfil() {
             <button
               type = "button"
               className="perfil-button-secondary"
-              onClick={() => setPasswordModalVisible(true)}
+              onClick={handleOpenPasswordModal}
             >
               Cambiar contraseña
             </button>
@@ -410,6 +425,11 @@ function Perfil() {
               </button>
             </div>
             <form onSubmit={handleChangePassword} className="modal-body">
+            
+            {/* campos fantasmas para que el navegador no complete la contraseña actual */}
+            <input type="text" name="username" autoComplete="username" style={{ display: 'none' }} />
+            <input type="password" name="password" autoComplete="current-password" style={{ display: 'none' }} /> 
+
               <div className="form-group">
                 <label>Contraseña actual:</label>
                 <input
@@ -417,6 +437,8 @@ function Perfil() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
+                  //para que el navegador no autocomplete la contraseña actual
+                  autoComplete="off"
                 />
               </div>
               <div className="form-group">
@@ -426,6 +448,7 @@ function Perfil() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
+                  autoComplete="new-password"
                 />
               </div>
               <div className="form-group">
@@ -435,11 +458,13 @@ function Perfil() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
+                  autoComplete="new-password"
                 />
               </div>
                 <button type="submit" className="modal-btn-guardar">
                   Actualizar contraseña
                 </button>
+              {passwordModalMessage && <p className="modal-mensaje-error">{passwordModalMessage}</p>}
             </form>
           </div>
         </>
