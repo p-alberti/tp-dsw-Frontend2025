@@ -63,6 +63,7 @@ function FocusBox() {
   const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(null);
   const [mensajeError, setMensajeError] = useState<string>('');
   const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
+  const [infoMessage, setInfoMessage] = useState<string>('');
 
   useEffect(() => {
     let interval: number | undefined = undefined;
@@ -146,12 +147,51 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
   });
 };
 
-  const handleIteracionesChange = (clave: keyof typeof tiempos, newCount: number) => {
-  setTiempos(prev => ({
-    ...prev,
-    [clave]: { ...prev[clave], iteraciones: newCount }
-  }));
+const handleIteracionesChange = (clave: keyof typeof tiempos, newCount: number) => {
+    setTiempos(prev => {
+      const nuevoEstadoTiempos = { ...prev };
+
+      nuevoEstadoTiempos[clave] = { ...prev[clave], iteraciones: newCount };
+
+      // si se modifica el contador de tiempos de foco
+      if (clave === 'foco') {
+        //calculamos el nuevo límite para los recreos cortos
+        const maxRecreosCortos = newCount > 1 ? newCount - 1 : 1;
+        
+        // verificamos si el número actual de recreos cortos se ha quedado inválido.
+        if (nuevoEstadoTiempos.corto.iteraciones > maxRecreosCortos) {
+          // si es así lo corregimos ajustándolo al nuevo máximo.
+          nuevoEstadoTiempos.corto.iteraciones = maxRecreosCortos;
+        }
+      }
+
+      //si se modifica el contador de recreo corto
+      if (clave === 'corto') {
+        // calculamos el número máximo de recreos posibles.
+        const maxRecreosCortos = nuevoEstadoTiempos.foco.iteraciones > 1 ? nuevoEstadoTiempos.foco.iteraciones - 1 : 1;
+        
+        if (newCount > maxRecreosCortos) {
+          // Si el usuario intentó poner un número muy alto, lo corregimos.
+          nuevoEstadoTiempos.corto.iteraciones = maxRecreosCortos;
+        }
+      }
+    
+      return nuevoEstadoTiempos;
+    });
   };
+
+  useEffect(() => {
+    const totalFocos = tiempos.foco.iteraciones;
+    const recreosCortosConfigurados = tiempos.corto.iteraciones;
+    const maxRecreosPosibles = totalFocos > 1 ? totalFocos - 1 : 0;
+
+    // Si el usuario configura tantos recreos cortos como espacios disponibles hay...
+    if (totalFocos > 1 && recreosCortosConfigurados >= maxRecreosPosibles) {
+      setInfoMessage('Con esta configuración, no habrá recreos largos.');
+    } else {
+      setInfoMessage(''); // Limpiar el mensaje si la condición no se cumple
+    }
+  }, [tiempos.foco.iteraciones, tiempos.corto.iteraciones]);
 
   const handleStartNewSession = async () => {
     if (!selectedCategoria) {
@@ -260,6 +300,7 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
           {selectedCategoria.nombre_categoria}
         </div>
       )}
+
       <div className="ContenidoFocusBox"> 
         
         {currentSessionId === null && (
@@ -270,6 +311,8 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
         )}
         
         <div className="ContenedorTimers">
+          {currentSessionId === null ? (
+          <>
           <RelojInteractivo
             titulo={CONFIGURACION_RELOJES.foco.titulo}
             tipo={CONFIGURACION_RELOJES.foco.tipo}
@@ -307,6 +350,25 @@ const handleTiempoChange = (clave: keyof typeof tiempos, unidad: 'minutos' | 'se
               iteracionesModificables={false}
             />
           </div>
+
+          {infoMessage && <p className="InfoMessage">{infoMessage}</p>}
+          </>
+          ) : (
+            <>
+            <RelojInteractivo // si hay una sesion activa
+                titulo={CONFIGURACION_RELOJES[clavePasoActivo].titulo}
+                tipo="principal"
+                minutos={displayMinutos}
+                segundos={displaySegundos}
+                estaActivo={true}
+                estaDeshabilitado={true}
+                onTiempoChange={() => {}}
+                iteraciones={tiempos.foco.iteraciones}
+                onIteracionesChange={() => {}}
+                iteracionesModificables={false}
+              />
+            </>
+          )}
 
           <div className="BotonesContainer">
             {currentSessionId === null ? (
