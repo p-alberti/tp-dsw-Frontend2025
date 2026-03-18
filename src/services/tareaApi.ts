@@ -5,8 +5,9 @@ const API_URL = 'http://localhost:3000/api';
 // estructura de las tareas
 export interface TaskData {
   nombre: string;
-  descripcion: string;
   estado: string;
+  fecha_creacion?: string;
+  fecha_vencimiento?: string;
 }
 
 //obtener tareas del usuario

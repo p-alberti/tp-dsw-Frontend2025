@@ -38,7 +38,7 @@ function BarraSuperior() {
             {isDropdownOpen && (
               <div className="dropdown-menu">
                 <button onClick={() => navigate("/Perfil")}>Perfil</button>
-                <button onClick={() => navigate("/estadisticas")}>Ver estadísticas</button>
+                <button onClick={() => navigate("/Estadisticas")}>Ver estadísticas</button>
                 <button onClick={handleLogout}>Cerrar Sesión</button>
               </div>
             )}

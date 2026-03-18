@@ -100,7 +100,6 @@ return (
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -110,7 +109,6 @@ return (
                 tasks.map(task => (
                   <tr key={task.id}>
                     <td>{task.nombre}</td>
-                    <td>{task.descripcion}</td>
                     <td>
                       <span 
                         className={`status-pill status-${task.estado.toLowerCase().replace(' ', '-')}`}>{task.estado}

@@ -13,7 +13,6 @@ interface ModalProps {
 
 function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
   const [nombre, setNombre] = useState('');
-  const [descripcion, setDescripcion] = useState('');
   const [estado, setEstado] = useState(ESTADOS_POSIBLES[0]); //si no se elige pone el primero
   const [isSaving, setIsSaving] = useState(false);
 
@@ -21,7 +20,6 @@ function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
   useEffect(() => {
     if (taskToEdit) {
       setNombre(taskToEdit.nombre);
-      setDescripcion(taskToEdit.descripcion);
       setEstado(taskToEdit.estado);
     }
   }, [taskToEdit]);
@@ -35,7 +33,6 @@ function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
     setIsSaving(true);
     await onSave({
       nombre,
-      descripcion,
       estado,
     });
     // onClose será llamado por el padre
@@ -55,14 +52,6 @@ function CreateTaskModal({ onClose, onSave, taskToEdit }: ModalProps) {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               required
-            />
-          </div>
-          <div className="form-group">
-            <label>Descripción</label>
-            <textarea
-              className="modal-input"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
             />
           </div>
           <div className="form-group">
